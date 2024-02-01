@@ -1,0 +1,929 @@
+.turbo-progress-bar {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: #0076ff;
+    z-index: 9999;
+    transition:
+      width 300ms ease-out,
+      opacity 150ms 150ms ease-in;
+    transform: translate3d(0, 0, 0);
+  }
+  </style><style id="st_globalStyles">
+  /* SCROLLBAR */
+  
+  [dark-scroll]::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  [dark-scroll]::-webkit-scrollbar-track-piece {
+    background-color: #2b2b2b;
+    border: 1px solid #1d1d1d;
+  }
+  
+  [dark-scroll]::-webkit-scrollbar-thumb {
+    height: 10px;
+    background-color: #4d4d4d;
+  }
+  [dark-scroll]::-webkit-scrollbar-thumb:hover {
+    background-color: #5a5a5a;
+  }
+  
+  /* LOAD PROGRESS */
+  
+  .turbolinks-progress-bar {
+    height: 3px;
+    background-color: #ff6250;
+  }
+  
+  /* GROUPING */
+  
+  [data-id].ui-selecting {
+    box-shadow: inset 0 0 0 1px #4285f4 !important;
+  }
+  [data-id].ui-selected {
+    box-shadow: inset 0 0 0 1px #4285f4 !important;
+  }
+  
+  /* CURSOR */
+  
+  body[mode='comments'] * {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00LjkxNjQ4IDIzLjQxMDlDNS40OTE1MyAyMi45ODg3IDUuOTMxNzkgMjIuMzkzNSA2LjIzMjggMjEuNjQwN0M0Ljc5MDY5IDE5LjczODMgNCAxNy4zOTMzIDQgMTQuOTk3NUM0IDguOTM0MSA4LjkzMjgyIDQgMTUuMDAyMiA0QzIxLjA3MTcgNCAyNiA4LjkzOTE5IDI2IDE1LjAwMjVDMjYgMjEuMDY1OSAyMS4wNjcyIDI2IDE0Ljk5NzggMjZDMTIuOTg5NiAyNiAxMS4wMzUzIDI1LjQ1NTcgOS4zMjM2NyAyNC40MjMxQzguNDI5NjUgMjQuOTU3MiA3LjQxNDM0IDI1LjIyNjggNi4zMDAxOCAyNS4yMjY4QzUuOTU0MjYgMjUuMjI2OCA1LjU5OTM1IDI1LjIwMTQgNS4yNTM0MiAyNS4xNDU0QzQuOTAzIDI1LjA4OTUgNC42Mjg5NiAyNC44MDQ2IDQuNTUyNTggMjQuNDE4QzQuNDc2MjEgMjQuMDI2NCA0LjYxOTk3IDIzLjYyOTYgNC45MTY0OCAyMy40MTA5WiIgZmlsbD0iI0ZGNjI1MCIvPgo8L3N2Zz4K')
+        0 24,
+      auto !important;
+  }
+  
+  body[mode='code'] [data-id]:not(.hidden) {
+    cursor: default;
+  }
+  
+  /* default node state */
+  
+  body[mode='code'] [data-id]:not(.hidden), body[mode='comments'] [data-id]:not(.hidden) {
+    pointer-events: all;
+  }
+  
+  /* is_image */
+  
+  body[mode='code'] [data-id].is_image [data-id], body[mode='comments'] [data-id].is_image [data-id] {
+    pointer-events: none !important;
+  }
+  
+  /* without a data-id or ignored */
+  
+  [data-id].ignore,body[mode='code'] *:not([data-id]) {
+    pointer-events: none !important;
+  }
+  /* disable transforms for ignored elements */
+  
+  
+  body[mode='code'] [data-id]:hover{
+    transform: none !important;
+  }
+  
+  div[class^='i-o-sparts']{
+    pointer-events: none !important;
+  }
+  
+  </style><meta charset="utf-8"><meta name="viewport" content="width=1920, maximum-scale=1.0"><link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"><meta name="og:type" content="website"><meta name="twitter:card" content="photo"><script id="anima-hotspots-script" src="hotspots.js"></script><style id="hotspots-styles">
+      .hotspot {
+        position: absolute;
+        border: 1px solid #2a9fd8;
+        background: rgba(0, 173, 255, 0.54);
+        opacity: 0;
+        z-index: -1;
+        pointer-events:none;
+      }
+    </style><script id="s_turbo" src="https://animaapp.s3.amazonaws.com/static/turbo.es2017-umd.js"></script><script id="anima-overrides-script" src="overrides.js"></script><script src="https://animaapp.s3.amazonaws.com/js/timeline.js"></script><script id="anime-js-script" src="https://cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js" integrity="sha256-98Q574VkbV+PkxXCKSgL6jVq9mrVbS7uCdA+vt0sLS8=" crossorigin="anonymous"></script><script id="imgloaded-js-script" src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script><style>
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+  
+  @import url("https://fonts.googleapis.com/css?family=Major+Mono+Display:400|Macondo:400|Archivo+Black:400");
+  
+  /* The following line is used to measure usage of this code. You can remove it if you want. */
+  @import url("https://px.animaapp.com/656818123520e99c274edd03.656818133520e99c274edd06.XDI5EGB.hch.png");
+  
+  
+  .screen textarea:focus,
+  .screen input:focus {
+    outline: none;
+  }
+  
+  .screen * {
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+  }
+  
+  .screen div {
+    -webkit-text-size-adjust: none;
+  }
+  
+  .component-wrapper a {
+    display: contents;
+    pointer-events: auto;
+    text-decoration: none;
+  }
+  
+  .component-wrapper * {
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+  
+  .component-wrapper a *,
+  .component-wrapper input,
+  .component-wrapper video,
+  .component-wrapper iframe {
+    pointer-events: auto;
+  }
+  
+  .component-wrapper.not-ready,
+  .component-wrapper.not-ready * {
+    visibility: hidden !important;
+  }
+  
+  .screen a {
+    display: contents;
+    text-decoration: none;
+  }
+  
+  .full-width-a {
+    width: 100%;
+  }
+  
+  .full-height-a {
+    height: 100%;
+  }
+  
+  .container-center-vertical {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .container-center-vertical > * {
+    flex-shrink: 0;
+    pointer-events: auto;
+  }
+  
+  .container-center-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    pointer-events: none;
+    width: 100%;
+  }
+  
+  .container-center-horizontal > * {
+    flex-shrink: 0;
+    pointer-events: auto;
+  }
+  
+  .auto-animated div {
+    --z-index: -1;
+    opacity: 0;
+    position: absolute;
+  }
+  
+  .auto-animated input {
+    --z-index: -1;
+    opacity: 0;
+    position: absolute;
+  }
+  
+  .auto-animated .container-center-vertical,
+  .auto-animated .container-center-horizontal {
+    opacity: 1;
+  }
+  
+  .overlay-base {
+    display: none;
+    height: 100%;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  
+  .overlay-base.animate-appear {
+    align-items: center;
+    animation: reveal 0.3s ease-in-out 1 normal forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+  }
+  
+  .overlay-base.animate-disappear {
+    animation: reveal 0.3s ease-in-out 1 reverse forwards;
+    display: block;
+    opacity: 1;
+    pointer-events: none;
+  }
+  
+  .overlay-base.animate-disappear * {
+    pointer-events: none;
+  }
+  
+  @keyframes reveal {
+    from { opacity: 0 }
+   to { opacity: 1 }
+  }
+  
+  .animate-nodelay {
+    animation-delay: 0s;
+  }
+  
+  .align-self-flex-start {
+    align-self: flex-start;
+  }
+  
+  .align-self-flex-end {
+    align-self: flex-end;
+  }
+  
+  .align-self-flex-center {
+    align-self: flex-center;
+  }
+  
+  .valign-text-middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .valign-text-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  
+  input:focus {
+    outline: none;
+  }
+  
+  .listeners-active,
+  .listeners-active * {
+    pointer-events: auto;
+  }
+  
+  .hidden,
+  .hidden * {
+    pointer-events: none;
+    visibility: hidden;
+  }
+  
+  .smart-layers-pointers,
+  .smart-layers-pointers * {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  
+  .listeners-active-click,
+  .listeners-active-click * {
+    cursor: pointer;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  :root { 
+    --black: #000000;
+    --oxford-blue: #364756;
+    --white: #ffffff;
+   
+    --font-size-l: 40px;
+    --font-size-m: 32px;
+    --font-size-s: 20px;
+    --font-size-xl: 64px;
+   
+    --font-family-archivo_black: "Archivo Black", Helvetica;
+    --font-family-macondo: "Macondo", Helvetica;
+    --font-family-major_mono_display: "Major Mono Display", Helvetica;
+  }
+  .archivo-normal-white-32px {
+    color: var(--white);
+    font-family: var(--font-family-archivo_black);
+    font-size: var(--font-size-m);
+    font-style: normal;
+    font-weight: 400;
+  }
+  
+  :root {
+  }
+  
+  
+  /* screen - frame-1 */
+  
+  .frame-1 {
+    background-color: var(--white);
+    height: 1080px;
+    overflow: hidden;
+    overflow-x: hidden;
+    position: relative;
+    width: 1920px;
+  }
+  
+  .frame-1 .rectangle-2-VxPVnb {
+    background-color: #4d486e;
+    height: 1080px;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 1920px;
+  }
+  
+   .frame-1 .ellipse-4-VxPVnb {
+    background-color: #dbb900;
+    border-radius: 633.5px;
+    height: 1267px;
+    left: 1064px;
+    position: absolute;
+    top: -278px;
+    width: 1267px;
+  }
+  
+   .frame-1 .ellipse-8-VxPVnb {
+    background-color: #e3c004;
+    border-radius: 574px;
+    height: 1148px;
+    left: 1124px;
+    position: absolute;
+    top: -223px;
+    width: 1148px;
+  }
+  
+  .frame-1 .ellipse-9-VxPVnb {
+    background-color: #f2cd05;
+    border-radius: 528.5px;
+    height: 1057px;
+    left: 1169px;
+    position: absolute;
+    top: -178px;
+    width: 1057px;
+  }
+  
+  .frame-1 .polygon-4-VxPVnb {
+    background-color: transparent;
+    height: 767px;
+    left: 0px;
+    position: absolute;
+    top: 97px;
+    width: 840px;
+  }
+  
+  .frame-1 .star-3-VxPVnb {
+    background-color: transparent;
+    height: 37px;
+    left: 370px;
+    position: absolute;
+    top: 429px;
+    width: 35px;
+  }
+  
+  .frame-1 .star-1-VxPVnb {
+    background-color: transparent;
+    height: 26px;
+    left: 622px;
+    position: absolute;
+    top: 161px;
+    width: 25px;
+  }
+  
+  .frame-1 .star-2-VxPVnb {
+    background-color: transparent;
+    height: 37px;
+    left: 440px;
+    position: absolute;
+    top: 156px;
+    width: 35px;
+  }
+  
+  .frame-1 .star-4-VxPVnb {
+    background-color: transparent;
+    height: 37px;
+    left: 290px;
+    position: absolute;
+    top: 149px;
+    width: 36px;
+  }
+  
+  .frame-1 .star-5-VxPVnb {
+    background-color: transparent;
+    height: 29px;
+    left: 510px;
+    position: absolute;
+    top: 284px;
+    width: 29px;
+  }
+  
+  .frame-1 .star-6-VxPVnb {
+    background-color: transparent;
+    height: 37px;
+    left: 726px;
+    position: absolute;
+    top: 136px;
+    width: 36px;
+  }
+  
+  .frame-1 .star-7-VxPVnb {
+    background-color: transparent;
+    height: 37px;
+    left: 431px;
+    position: absolute;
+    top: 356px;
+    width: 36px;
+  }
+  
+  .frame-1 .polygon-3-VxPVnb {
+    background-color: transparent;
+    height: 1079px;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 566px;
+  }
+  
+  .frame-1 .polygon-2-VxPVnb {
+    background-color: transparent;
+    height: 1079px;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 374px;
+  }
+  
+  .frame-1 .rectangle-3-VxPVnb {
+    background-color: transparent;
+    height: 413px;
+    transform:translateX(-100px);
+    left: 0px;
+    position: absolute;
+    top: 130px;
+    width: 475px;
+    animation-name:anim1;
+    animation-duration:1s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+
+  @keyframes anim1 {
+    50%{
+        transform: translateX(-100px);
+    }
+    100%{
+        transform:translateX(0px) ;
+    }
+  }
+  
+  .frame-1 .rectangle-1-VxPVnb {
+    background-color: #536573;
+    height: 112px;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 1920px;
+  }
+  
+  .frame-1 .polygon-1-VxPVnb {
+    background-color: transparent;
+    height: 112px;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 184px;
+  }
+  
+  .frame-1 .figmair-lines-VxPVnb {
+    background-color: transparent;
+    color: var(--white);
+    font-family: var(--font-family-major_mono_display);
+    font-size: var(--font-size-l);
+    font-style: normal;
+    font-weight: 400;
+    height: auto;
+    left: 20px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 13px;
+    width: 214px;
+  }
+  
+  .frame-1 .ellipse-1-VxPVnb {
+    background-color: #7197b6;
+    border-radius: 686.5px;
+    height: 1373px;
+    left: 273px;
+    position: absolute;
+    top: 380px;
+    width: 1373px;
+  }
+  
+  .frame-1 .ellipse-5-VxPVnb {
+    background-color: #6c8fad;
+    border-radius: 586.5px;
+    height: 1173px;
+    left: 373px;
+    position: absolute;
+    top: 493px;
+    width: 1173px;
+  }
+  
+  .frame-1 .ellipse-6-VxPVnb {
+    background-color: #62829d;
+    border-radius: 528.5px;
+    height: 1057px;
+    left: 448px;
+    position: absolute;
+    top: 556px;
+    width: 1057px;
+  }
+  
+  .frame-1 .ellipse-7-VxPVnb {
+    background-color: #506a7f;
+    border-radius: 476.5px;
+    height: 953px;
+    left: 500px;
+    position: absolute;
+    top: 603px;
+    width: 953px;
+  }
+  
+  .frame-1 .vector-1-VxPVnb {
+    background-color: transparent;
+    height: 701px;
+    left: 299px;
+    position: absolute;
+    top: 379px;
+    width: 1328px;
+  }
+  
+  .frame-1 .rectangle-9-VxPVnb {
+    background-color: #425564;
+    border-radius: 49px;
+    height: 544px;
+    left: 1391px;
+    position: absolute;
+    top: 180px;
+    width: 604px;
+  }
+  
+  .frame-1 .ellipse-2-VxPVnb {
+    background-color: #ff0000;
+    border-radius: 11.5px;
+    height: 23px;
+    left: 965px;
+    position: absolute;
+    top: 577px;
+    width: 23px;
+  }
+  
+  .frame-1 .ellipse-3-VxPVnb {
+    background-color: #f68e8e;
+    border-radius: 18.5px/8px;
+    height: 16px;
+    left: 522px;
+    position: absolute;
+    top: 1002px;
+    width: 37px;
+  }
+  
+  .frame-1 .vector-2-VxPVnb {
+    background-color: transparent;
+    height: 420px;
+    left: 521px;
+    position: absolute;
+    top: 586px;
+    width: 456px;
+  }
+  
+  .frame-1 .france-VxPVnb {
+    background-color: transparent;
+    color: var(--white);
+    font-family: var(--font-family-macondo);
+    font-size: var(--font-size-s);
+    font-style: normal;
+    font-weight: 400;
+    height: auto;
+    left: 951px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 555px;
+    white-space: nowrap;
+    width: 51px;
+  }
+  
+  .frame-1 .poland-VxPVnb {
+    background-color: transparent;
+    color: var(--white);
+    font-family: var(--font-family-macondo);
+    font-size: var(--font-size-s);
+    font-style: normal;
+    font-weight: 400;
+    height: auto;
+    left: 512px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 1017px;
+    white-space: nowrap;
+    width: 56px;
+  }
+  
+  .frame-1 .new-best-airlines-fi-VxPVnb {
+    background-color: transparent;
+    height: auto;
+    left: 20px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 199px;
+    width: 441px;
+  }
+  
+  .frame-1 .rectangle-4-VxPVnb {
+    background-color: var(--oxford-blue);
+    border-radius: 24px;
+    height: 121px;
+    left: 372px;
+    position: absolute;
+    top: -24px;
+    width: 166px;
+  }
+  
+  .frame-1 .tours-VxPVnb {
+    background-color: transparent;
+    height: auto;
+    left: 393px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 29px;
+    white-space: nowrap;
+    width: 124px;
+  }
+  
+  .frame-1 .rectangle-5-VxPVnb {
+    background-color: var(--oxford-blue);
+    border-radius: 24px;
+    height: 121px;
+    left: 582px;
+    position: absolute;
+    top: -24px;
+    width: 166px;
+  }
+  
+  .frame-1 .info-VxPVnb {
+    background-color: transparent;
+    height: auto;
+    left: 621px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 29px;
+    white-space: nowrap;
+    width: 88px;
+  }
+  
+  .frame-1 .rectangle-6-VxPVnb {
+    background-color: var(--oxford-blue);
+    border-radius: 24px;
+    height: 121px;
+    left: 798px;
+    position: absolute;
+    top: -24px;
+    width: 204px;
+  }
+  
+  .frame-1 .airports-VxPVnb {
+    background-color: transparent;
+    height: auto;
+    left: 808px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 29px;
+    white-space: nowrap;
+    width: 183px;
+  }
+  
+  .frame-1 .rectangle-7-VxPVnb {
+    background-color: var(--oxford-blue);
+    border-radius: 24px;
+    height: 121px;
+    left: 1040px;
+    position: absolute;
+    top: -24px;
+    width: 301px;
+  }
+  
+  .frame-1 .statics-graph-VxPVnb {
+    background-color: transparent;
+    height: auto;
+    left: 1045px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 29px;
+    white-space: nowrap;
+    width: 291px;
+  }
+  
+  .frame-1 .rectangle-8-VxPVnb {
+    background-color: #2d3b47;
+    border-radius: 15px;
+    height: 116px;
+    left: 1438px;
+    position: absolute;
+    top: -19px;
+    width: 509px;
+  }
+  
+  .frame-1 .time-before-flight-000000-VxPVnb {
+    background-color: transparent;
+    height: auto;
+    left: 1447px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: left;
+    top: 7px;
+    width: 492px;
+  }
+  
+    .frame-1 .loginor-register-VxPVnb {
+    background-color: transparent;
+    color: var(--white);
+    font-family: var(--font-family-archivo_black);
+    font-size: var(--font-size-xl);
+    font-style: normal;
+    font-weight: 400;
+    height: auto;
+    left: 1484px;
+    letter-spacing: 0.00px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 334px;
+    width: 380px;
+  }
+  .planet1{
+    animation-name:planet1;
+    animation-duration:1s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes planet1 {
+    0%{
+        transform: translateY(-100px);
+    }
+    100%{
+        transform: translateY(0px)
+    }
+  }
+  .planet2{
+    animation-name:planet2;
+    animation-duration:1s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes planet2{
+    0%{
+        transform: translateX(-10px) translateY(-110px);
+    }
+    100%{
+        transform: translateX(0px) translateY(0px);
+    }
+  }
+  .loginor{
+    animation-name:login;
+    animation-duration:1s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes login{
+    0%{
+        transform: translateX(300px);
+    }
+    100%{
+        transform: translateX(0px);
+    }
+  }
+  .heading{
+    animation-name:header;
+    animation-duration:1s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes header{
+    0%{
+        transform: translateY(-300px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+  }
+
+  .backspace1{
+    animation-name:back1;
+    animation-duration:1s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes back1{
+  0%{
+    transform: translateX(-300px);
+  }
+  100%{
+    transform: translateX(0px);
+  }
+  }
+  .backspace2{
+    animation-name:back2;
+    animation-duration:1.2s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes back2{
+   0%{
+    transform: translateX(-600px);
+   }
+   100%{
+    transform: translateX(0px);
+   }
+  }
+  .backspace3{
+    animation-name:back3;
+    animation-duration:1.6s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes back3{
+    0%{
+        transform: translateX(-900px);
+    }
+    100%{
+        transform: translateX(0px);
+    }
+  }
+  .infotable{
+    animation-name:info;
+    animation-duration:2s;
+    animation-iteration-count:1;
+    animation-delay:ease-in-out;
+    animation-play-state:1;
+    animation-fill-mode:forwards;
+  }
+  @keyframes info{
+    0%{
+        transform: translateX(-300px);
+    }
+    100%{
+        transform: translateX(0px);
+    }
+  }
+  .buttonshowup1:hover{
+    animation-play-state: running;
+    animation-name: buttonshowup1; 
+    animation-duration: 1s;
+    animation-iteration-count:1;
+    animation-fill-mode: forwards;
+  }
+  @keyframes buttonshowup1{
+    0%{
+        transform: translateY(0px);
+    }
+    100%{
+        transform: translateY(50px);
+    }
+  }
